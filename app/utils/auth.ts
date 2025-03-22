@@ -18,4 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         from: process.env.EMAIL_FROM,
       }),
   ],
+  pages: {
+    verifyRequest: '/verify'  // authjs by default sends it own verify page in magic link(our authentication method) but now we told auth js that go to /verify page after we put email
+  }
 })
