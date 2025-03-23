@@ -22,11 +22,13 @@ export const dashBoardLinks = [
 
 
 export function DashBoardLinks() {
-    const pathName = usePathname();  //  Returns the current URL path.
+    //  Returns the current URL path.
+    const pathName = usePathname();  
     return (
         <>
             {dashBoardLinks.map((link) => (
-                <Link className={cn(                 // we can avoid cn by using `` but cn is clean (it means conditional css)
+
+                <Link className={cn(                 
                     pathName === link.href
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground",
@@ -39,3 +41,5 @@ export function DashBoardLinks() {
         </>
     )
 }
+
+// we can avoid cn by using `` but cn is clean (it means conditional css)

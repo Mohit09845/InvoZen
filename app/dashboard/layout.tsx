@@ -10,17 +10,18 @@ import { signOut } from "../utils/auth";
 import { Toaster } from "@/components/ui/sonner";
 
 export default async function DashboardLayout({children}: {children: React.ReactNode}) {
-    const session = await requireUser();           // The layout fetches the session using requireUser(), ensuring only authenticated users can access it. This means every page inside this layout requires authentication.
+    // The layout fetches the session using requireUser(), ensuring only authenticated users can access it. This means every page inside this layout requires authentication.
+    const session = await requireUser();   
     return (
         <>
             <div className="grid min-h-screen w-full md:gird-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-                // left sidebar
+                {/* left sidebar */}
                 <div className="hidden border-r bg-muted/40 md:block">
                     <div className="flex flex-col max-h-screen h-full gap-2">
                         <div className="h-14 flex items-center border-b px-4 lg:h-[60px] lg:px-6">
-                            <Link href = "" className="flex items-center">
-                                <Image src="/logo" alt="Logo" className="size-7" />
-                                <p className="text-2xl font-bold">Invo<span className="text-blue-600">Zen</span></p>
+                            <Link href = "/" className="flex items-center gap-2">
+                                <Image src="/logo.png" height={27} width={27} alt="Logo"/>
+                                <p className="text-3xl font-extrabold tracking-tight">Invo<span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 text-transparent bg-clip-text">Zen</span></p>
                             </Link>
                         </div>
                         <div className="flex-1">
@@ -31,23 +32,24 @@ export default async function DashboardLayout({children}: {children: React.React
                     </div>
                 </div>
 
-                // Mobile leftsidebar 
+                {/* Mobile leftsidebar */}
                 <div className="flex flex-col">
                     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-                        <Sheet>
-                            <SheetTrigger asChild>      // because sheettrigger also renders as button in DOM
-                                <Button variant="outline" size="icon" className="md:hidden">
-                                    <Menu className="size-5"/>
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side="left">
-                                <nav className="grid gap-2 mt-10">
-                                    <DashBoardLinks />
-                                </nav>
-                            </SheetContent>
-                        </Sheet>
+                    <Sheet>
+                        <SheetTrigger asChild>  
+                            <Button variant="outline" size="icon" className="md:hidden">
+                                <Menu className="size-5"/>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left">
+                            <nav className="grid gap-2 mt-10">
+                                <DashBoardLinks />
+                            </nav>
+                        </SheetContent>
+                    </Sheet>
 
-                        // Right side top mai User 
+
+                        {/* Right side top mai User  */}
                         <div className="flex items-center ml-auto">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -67,7 +69,7 @@ export default async function DashboardLayout({children}: {children: React.React
                                     <DropdownMenuSeparator/>
                                     <DropdownMenuItem asChild>
                                         <form className="w-full"
-                                            action={async () => {   // Inline async func
+                                            action={async () => {   
                                                 "use server";
                                                 await signOut();
                                             }}
