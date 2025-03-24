@@ -12,30 +12,29 @@ import { Label } from "@/components/ui/label";
 import { SubmitButton } from "../components/SubmitButton";
 import { useActionState } from "react";
 import { onboardUser } from "../actions";
-import { useForm } from '@conform-to/react'
+import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { onboardingSchema } from "../utils/zodSchema";
 
 export default function Onboarding() {
-    // useActionState is a React Hook that helps track the state of a server action used for form.
-    // In this case, it calls onboardUser (a server action) when the form is submitted
-    // It stores the last result from the server (lastResult).
-    const [lastResult, action] = useActionState(onboardUser, undefined);
-    // useForm hook has client side state and lastResult has server side state so we will sync both of them
-    // so useForm provides instant feedback to users without needing a full server request.
-    const [] = useForm({
-        lastResult,
+  // useActionState is a React Hook that helps track the state of a server action used for form.
+  // In this case, it calls onboardUser (a server action) when the form is submitted
+  // It stores the last result from the server (lastResult).
+  const [lastResult, action] = useActionState(onboardUser, undefined);
+  // useForm hook has client side state and lastResult has server side state so we will sync both of them
+  // so useForm provides instant feedback to users without needing a full server request.
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      // converting formData into js object
+      return parseWithZod(formData, {
+        schema: onboardingSchema,
+      });
+    },
 
-        onValidate({formData}) {   
-            // converting formData into js object
-            return parseWithZod(formData, {
-                schema: onboardingSchema
-            })
-        },
-
-        shouldValidate: 'onBlur',  // Validation runs when the user leaves (blurs) an input field
-        shouldRevalidate: 'onInput'  // Validation runs on every keystroke (when the user types or modifies input).
-    })
+    shouldValidate: "onBlur",         // Validation runs when the user leaves (blurs) an input field
+    shouldRevalidate: "onInput",      // Validation runs on every keystroke (when the user types or modifies input).
+  });
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
@@ -49,29 +48,54 @@ export default function Onboarding() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form
+            className="grid gap-4"
+            action={action}
+            id={form.id}
+            onSubmit={form.onSubmit}
+            noValidate
+          >
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <Label>First Name</Label>
-                <Input placeholder="Mohit" />
+                <Input
+                  placeholder="Mohit"
+                  name={fields.firstName.name}
+                  key={fields.firstName.key}
+                  defaultValue={fields.firstName.initialValue}
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.firstName.errors}
+                </p>
               </div>
               <div className="grid gap-2">
                 <Label>Last Name</Label>
-                <Input placeholder="Sharma" />
+                <Input
+                  placeholder="Sharma"
+                  name={fields.lastName.name}
+                  key={fields.lastName.key}
+                  defaultValue={fields.lastName.initialValue}
+                />
+                <p className="text-red-500 text-sm">{fields.lastName.errors}</p>
               </div>
             </div>
 
-            <div className="grid gap-2">
+            <div className="grid gap-4">
               <Label>Address</Label>
-              <Input placeholder="Gulab Ganj Colony" />
+              <Input
+                placeholder="Gulab Ganj Colony"
+                name={fields.address.name}
+                key={fields.address.key}
+                defaultValue={fields.address.initialValue}
+              />
+              <p className="text-red-500 text-sm">{fields.address.errors}</p>
             </div>
-            <SubmitButton text="Finish Onboarding" />  
+            <SubmitButton text="Finish Onboarding" />
           </form>
         </CardContent>
       </Card>
     </div>
   );
 }
-
 
 // There are 2 ways to send Data in Nextjs, either use Server Actions like we did in login page(it was inline server action) action..... or use route handler

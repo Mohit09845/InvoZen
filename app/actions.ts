@@ -31,5 +31,8 @@ export async function onboardUser(prevState: any, formData: FormData) {
     return redirect("/dashboard")
 }
 
+export async function createInvoice() {
+    const session = await requireUser();
+}
 
 // server side validation

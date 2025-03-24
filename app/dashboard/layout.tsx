@@ -8,10 +8,31 @@ import { Menu, User2 } from "lucide-react";
 import {  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { signOut } from "../utils/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { prisma } from "../utils/db";
+import { redirect } from "next/navigation";
+
+// This function checks if user has finished onboarding or not
+async function getUser(userId: string) {
+    const data = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+        select: {
+            firstName: true,
+            lastName: true,
+            address: true
+        }
+    })
+
+    if(!data?.firstName || !data?.lastName || !data?.lastName){
+        redirect("/onboarding")
+    }
+}
 
 export default async function DashboardLayout({children}: {children: React.ReactNode}) {
     // The layout fetches the session using requireUser(), ensuring only authenticated users can access it. This means every page inside this layout requires authentication.
     const session = await requireUser();   
+    const data = await getUser(session.user?.id as string);
     return (
         <>
             <div className="grid min-h-screen w-full md:gird-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
