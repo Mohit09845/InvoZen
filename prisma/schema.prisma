@@ -19,6 +19,8 @@ model User {
   updatedAt     DateTime        @updatedAt
   accounts      Account[]
   Authenticator Authenticator[]
+  invoices      Invoice[]
+
   sessions      Session[]
 }
 
@@ -96,6 +98,8 @@ model Invoice {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 enum InvoiceStatus {
