@@ -11,6 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { prisma } from "../utils/db";
 import { redirect } from "next/navigation";
 
+
+
 // This function checks if user has finished onboarding or not
 async function getUser(userId: string) {
     const data = await prisma.user.findUnique({
@@ -63,9 +65,11 @@ export default async function DashboardLayout({children}: {children: React.React
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left">
-                            <nav className="grid gap-2 mt-10">
-                                <DashBoardLinks />
-                            </nav>
+                            <div>
+                                <nav className="grid gap-2 mt-10">
+                                    <DashBoardLinks />
+                                </nav>
+                            </div>
                         </SheetContent>
                     </Sheet>
 
@@ -111,3 +115,4 @@ export default async function DashboardLayout({children}: {children: React.React
         </>
     )
 }
+
