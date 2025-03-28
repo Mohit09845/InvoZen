@@ -8,12 +8,13 @@ import { toast } from "sonner";
 
 interface iAppProps {
     id: string;
+    status: string
 }
 
 // target = "_blank" property make our page open in new tab
-// we used fetch request in Reminder email because it is post request and Link is primarily used for Get request
+// we used fetch request in Reminder email because we want to display error and success and it is post request and Link is primarily used for Get request
 
-export function InvoiceActions({id}: iAppProps) {
+export function InvoiceActions({id, status}: iAppProps) {
 
     const handleSendReminder = () => {
         toast.promise(fetch(`/api/email/${id}`, {
@@ -51,16 +52,19 @@ export function InvoiceActions({id}: iAppProps) {
                     <Mail className="size-4 mr-2"/> Reminder Email
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href={`/dashboard/invoices/${id}`}>
+                    <Link href={`/dashboard/invoices/${id}/delete`}>
                         <Trash className="size-4 mr-2"/> Delete
                     </Link>
                 </DropdownMenuItem>
+                {status !== "PAID" && 
                 <DropdownMenuItem asChild>
-                    <Link href={`/dashboard/invoices/${id}`}>
+                    <Link href={`/dashboard/invoices/${id}/paid`}>
                         <CheckCircle className="size-4 mr-2"/> Mark as Paid
                     </Link>
                 </DropdownMenuItem>
+                }
             </DropdownMenuContent>
         </DropdownMenu>
     )
 }
+

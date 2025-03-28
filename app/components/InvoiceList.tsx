@@ -60,14 +60,25 @@ export async function InvoiceList() {
                 currency: invoice.currency as any,
               })}
             </TableCell>
-            <TableCell><Badge>{invoice.status}</Badge></TableCell>
+            <TableCell>
+              <Badge
+                className={`${
+                  invoice.status === "PENDING"
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
+                } text-white px-2 py-1 rounded-full`}
+              >
+                {invoice.status}
+              </Badge>
+            </TableCell>
+
             <TableCell>
               {new Intl.DateTimeFormat("en-IN", {
                 dateStyle: "medium",
               }).format(invoice.createdAt)}
             </TableCell>
             <TableCell className="text-right">
-              <InvoiceActions id={invoice.id}/>
+              <InvoiceActions id={invoice.id} status={invoice.status} />
             </TableCell>
           </TableRow>
         ))}
