@@ -4,6 +4,8 @@ import { prisma } from "../utils/db";
 import { requireUser } from "../utils/hooks";
 import { formatCurrency } from "../utils/formatCurrency";
 
+
+// Promise.all() allows multiple database queries to run in parallel and data is an array of invoice objects fetched from database
 async function getData(userId: string) {
   const [data, openInvoices, paidinvoices] = await Promise.all([
     prisma.invoice.findMany({
@@ -44,9 +46,7 @@ async function getData(userId: string) {
 
 export async function DashboardBlocks() {
   const session = await requireUser();
-  const { data, openInvoices, paidinvoices } = await getData(
-    session.user?.id as string
-  );
+  const { data, openInvoices, paidinvoices } = await getData(session.user?.id as string);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-8">
