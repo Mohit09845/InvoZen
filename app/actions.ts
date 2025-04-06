@@ -75,8 +75,8 @@ export async function createInvoice(prevState: any, formData: FormData) {
 
     emailClient.send({
         from: sender,
-        to: [{ email: "sharmaamohit121@gmail.com" }],
-        template_uuid: "22c75ee7-7d81-4e1c-af89-e34e92b9f49f",
+        to: [{ email: "mmhj53453@gmail.com" }],
+        template_uuid: "415d6547-9fda-4c86-913b-f2c51abcab29",
         template_variables: {
             clientName: submission.value.clientName,
             
@@ -91,7 +91,9 @@ export async function createInvoice(prevState: any, formData: FormData) {
                 currency: submission.value.currency as any,
             }),
 
-            invoiceLink: `http://localhost:3000/api/invoice/${data.id}`
+            invoiceLink: process.env.NODE_ENV !== 'production' ? 
+            `http://localhost:3000/api/invoice/${data.id}` :
+            `https://invo-zen-one.vercel.app/api/invoice/${data.id}`
         }
     })
 
@@ -142,8 +144,8 @@ export async function editInvoice(prevState: any, formData: FormData) {
 
     emailClient.send({
         from: sender,
-        to: [{ email: "sharmaamohit121@gmail.com" }],
-        template_uuid: "214cef99-289a-4465-be9c-291acc2e4dba",
+        to: [{ email: "mmhj53453@gmail.com" }],
+        template_uuid: "e8ebb449-3311-4db9-9a0e-fe665620f641",
         template_variables: {
             clientName: submission.value.clientName,
             

@@ -28,8 +28,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ inv
 
         emailClient.send({
             from: sender,
-            to: [{ email: "sharmaamohit121@gmail.com" }],
-            template_uuid: "4e67e4ee-76c0-43d8-aa1e-462380cff157",
+            to: [{ email: "mmhj53453@gmail.com" }],
+            template_uuid: "5f761b54-774c-4b1d-8433-9529cf35120a",
             template_variables: {
                 first_name: invoiceData.clientName,
                 company_info_name: "InvoGen",
